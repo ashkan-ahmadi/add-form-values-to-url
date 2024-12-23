@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Form Values to URL</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="src.js" defer></script>
+</head>
+<body>
+<main class="container">
+
+  <h1>Add Form Values to URL as Query Parameter</h1>
+
+  <form id="form">
+    <div class="mb-3">
+      <label for="fname">First name</label>
+      <input type="text" class="form-control" id="fname" name="fname" value="" required>
+    </div>
+    <div class="mb-3">
+      <label for="lname">Last name</label>
+      <input type="text" class="form-control" id="lname" name="lname" value="" required>
+    </div>
+    <div class="mb-3">
+      <label for="">Gender</label>
+      <label for="male">
+        <input type="radio" id="male" name="gender" value="Male">
+      Male</label>
+      <label for="female">
+        <input type="radio" id="female" name="gender" value="Female">
+      Female</label>
+      <label for="other">
+        <input type="radio" id="other" name="gender" value="Other">
+      Other</label>
+    </div>
+    <div class="mb-3">
+      <label for="birthday">Date of birth:</label>
+      <input type="date" id="birthday" class="form-control" name="birthday" required>
+    </div>
+    <div class="mb-3">
+      <label for="email">Enter your email:</label>
+      <input type="email" id="email" class="form-control" name="email" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <hr>
+  
+  <p>We have an input field. As you type a value, the same value is repeated in the URL (automatically encoded).</p>
+
+  <p>You can achieve this by listening to the <code>input</code> event of the input field and updating the URL's query parameter dynamically using the <code>URLSearchParams</code> interface and <code>history.pushState()</code> or <code>history.replaceState()</code>.</p>
+
+
+  <p>Here's an example:</p>
+
+
+  <code class="bg-light">
+    <pre>
+// Select the input field
+const inputField = document.getElementById('myInput');
+
+// Listen for input events
+inputField.addEventListener('input', (event) => {
+  const inputValue = event.target.value;
+
+  // Create a new URL object
+  const url = new URL(window.location);
+
+  // Update the query parameter named 'query' with the input value
+  if (inputValue) {
+    url.searchParams.set('query', inputValue);
+  } else {
+    url.searchParams.delete('query'); // Remove the parameter if the input is empty
+  }
+
+  // Update the browser URL without reloading the page
+  window.history.replaceState({}, '', url);
+});</pre>
+  </code>
+
+  <h2>How it works:</h2>
+
+  <ol>
+    <li><b>Event Listener</b>: The input event triggers whenever the user types or modifies the input field.</li>
+    <li><b>URLSearchParams</b>: This is used to add or modify query parameters in the URL.</li>
+    <li><code>history.replaceState()</code>: Updates the URL in the browser's address bar <b>without reloading the page</b>.</li>
+  </ol>
+</main>
+</body>
+</html>
